@@ -1,12 +1,16 @@
 import WanAndroidService from '../api/WanAndroidService';
-import ArticleList from '../model/ArticleList';
+import PageList from '../model/ArticleList';
 import ArticleVO from '../model/ArticleVO';
 import ArticleItemComponent from './ArticleItemComponent';
 import {
   PullToRefreshComponent,
   PullToRefreshController,
-  PullToRefreshViewModel} from '../component/ptr/PullToRefreshComponent';
-import * as ListState from '../component/ptr/ListState';
+  PullToRefreshViewModel
+} from '../component/ptr/PullToRefreshComponent';
+import ListState from '../component/ptr/ListState';
+import PageState from '../model/vo/PageState';
+import ToastUtils from '../utils/ToastUtils';
+import { calculateState } from '../utils/StateUtils';
 
 export class ArticleListConfig {
   static readonly CID_NONE = -1;
@@ -15,8 +19,9 @@ export class ArticleListConfig {
 @Component
 export default struct ArticleListComponent {
   @State private pageNo: number = 0;
-  @State private pageCount: number = 5;
+  @State private pageSize: number = 8;
   @State private articles: ArticleVO[] = []
+  @State private pageState: PageState = PageState.Initial
   cid?: number
   controller: PullToRefreshController
   @Provide viewModel: PullToRefreshViewModel = new PullToRefreshViewModel({
@@ -47,28 +52,35 @@ export default struct ArticleListComponent {
 
   onRefresh() {
     this.pageNo = 0
+    this.articles.length = 0
     this.loadArticleList()
   }
 
   onLoadMore() {
-    if (this.pageCount == this.pageNo) return;
+    console.log("loadArticle(onLoadMore): ", this.pageNo, this.pageState);
+    // if (this.pageSize == this.pageNo) return;
+    if (this.pageState == PageState.Loading) return;
     this.loadArticleList()
   }
 
   async loadArticleList() {
-    let response = await WanAndroidService.getArticleList(this.pageNo++, this.cid)
-    console.log("loadArticle: ", this.pageNo, JSON.stringify(response));
-    let articleList: ArticleList = response.data
-    this.articles.push(...articleList.datas)
-    this.controller.refreshCompleted()
-    if (articleList.datas?.length > 0 || articleList.total > 0) {
-      if (this.pageNo >= articleList.pageCount) {
-        this.controller.setListState(ListState.NoMore)
-      } else {
-        this.controller.setListState(ListState.HasMore)
-      }
-    } else {
-      this.controller.setListState(ListState.NoData)
+    try {
+      this.pageState = PageState.Loading
+      let response = await WanAndroidService.getArticleList(this.pageNo++, this.pageSize, this.cid)
+      console.log("loadArticle: ", this.pageNo, JSON.stringify(response));
+      let newData: PageList<ArticleVO> = response.data
+      this.articles.push(...newData.datas)
+      let newListState = calculateState(this.pageSize, this.articles, newData)
+      console.log("loadArticle response: ", newData?.datas.length, this.pageSize, this.articles?.length, newListState);
+      this.controller.refreshCompleted()
+      this.controller.setListState(newListState)
+      this.pageState = PageState.Success
+    } catch (e) {
+      console.log("loadArticle error", e)
+      // this.pageState = PageState.Failed
+      this.controller.setListState(ListState.NoMore)
+      ToastUtils.showToast("加载失败" + e)
+
     }
   }
 

@@ -2,7 +2,7 @@ import router from '@ohos.router';
 import WanAndroidService from '../api/WanAndroidService';
 import CommonConstants from '../global/CommonConstants';
 import HotKey from '../model/SearchVO';
-import ArticleList from '../model/ArticleList';
+import PageList from '../model/ArticleList';
 import ArticleVO from '../model/ArticleVO';
 import { CommonDataSource } from '../support/DataSource';
 import { Resources } from '../global/Resources';
@@ -233,7 +233,7 @@ struct SearchPage {
         console.log("doSearch(Conflict): ", currentKey, this.realSearchKey);
         return;
       }
-      let articles: ArticleList = response.data
+      let articles: PageList<ArticleVO> = response.data
       if (articles.datas.length == 0) {
         console.log("doSearch(Empty): ", currentKey, isFirstPage);
         if (isFirstPage) {

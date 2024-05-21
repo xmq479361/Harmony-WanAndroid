@@ -3,6 +3,17 @@ export default class CommonConstants {
   // global data key
   static readonly H_STORE: string = 'Store';
   static readonly K_USER_NAME: string = 'userName';
+
+
+  static readonly FONT_SIZE_LARGEST = 22;
+  static readonly FONT_SIZE_LARGE_MORE = 20;
+  static readonly FONT_SIZE_LARGE = 18;
+  static readonly FONT_SIZE_NORMAL_XX = 16;
+  static readonly FONT_SIZE_NORMAL_X = 14;
+  static readonly FONT_SIZE_NORMAL = 12;
+  static readonly FONT_SIZE_SMALL = 11;
+  static readonly FONT_SIZE_SMALL_MORE = 10;
+
   static readonly TITLE_BAR_HEIGHT = 56;
   static readonly PADDING_HORIZONTAL = 15;
   static readonly PADDING_VERTICAL = 12;
@@ -24,6 +35,7 @@ export default class CommonConstants {
   static readonly THOUSANDTH_100: string = '10%'; // ‘10%’
   static readonly THOUSANDTH_120: string = '12%'; // ‘12%’
   static readonly THOUSANDTH_160: string = '16%'; // ‘16%’
+  static readonly THOUSANDTH_250: string = '25%'; // ‘16%’
   static readonly THOUSANDTH_400: string = '40%'; // ‘40%’
   static readonly THOUSANDTH_420: string = '42%'; // ‘42%’
   static readonly THOUSANDTH_500: string = '50%'; // ‘50%’
@@ -60,6 +72,8 @@ export default class CommonConstants {
   static readonly DEFAULT_28: number = 28;
 
   static readonly DEFAULT_32: number = 32;
+
+  static readonly DEFAULT_36: number = 36;
 
   static readonly DEFAULT_48: number = 48;
 

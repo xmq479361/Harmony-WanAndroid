@@ -3,7 +3,7 @@ import WanAndroidService from '../../api/WanAndroidService'
 import { NavigationItem, NavigationItemDetail } from '../../model/NavigationVO'
 import router from '@ohos.router'
 import { Resources } from '../../global/Resources'
-import { PageState } from '../../model/vo/PageState'
+import PageState from '../../model/vo/PageState'
 import TitleBar from '../TitleBar'
 import PageStateLayout from '../../component/state/PageStateLayout'
 
@@ -50,10 +50,10 @@ export default struct NavigationTabContent {
               Text(navData.name)
                 .textAlign(TextAlign.Center)
                 .forTabText(this.focusIndex == index)
-                .fontSize(14)
+                .fontSize(CommonConstants.FONT_SIZE_NORMAL_X)
                 .maxLines(1)
-                .width('100%')
-                .height(50)
+                .width(CommonConstants.THOUSANDTH_1000)
+                .height(CommonConstants.DEFAULT_48)
                 .onClick(() => this.onFocusChanged(index) )
             }
           }, (item: NavigationItem, _: number) => `${item.cid}`)
@@ -63,7 +63,7 @@ export default struct NavigationTabContent {
         .width('100%')
         .layoutWeight(1)
       }
-      .width('25%')
+      .width(CommonConstants.THOUSANDTH_250)
 
 
       Flex({ direction: FlexDirection.Column, alignContent: FlexAlign.Center }) {
@@ -72,9 +72,9 @@ export default struct NavigationTabContent {
             GridItem() {
               Text(item.title)
                 .textAlign(TextAlign.Center)
-                .fontSize(12)
+                .fontSize(CommonConstants.FONT_SIZE_NORMAL)
                 .maxLines(1)
-                .height('100%')
+                .height(CommonConstants.THOUSANDTH_1000)
                 .fontColor($r('app.color.fontColor_text3'))
             }
             .height('180vp')
@@ -101,16 +101,16 @@ export default struct NavigationTabContent {
     TitleBar() {
       Text("请输入关键字查询, 如: Android")
         .fontColor($r('app.color.fontColor_text1'))
-        .fontSize(CommonConstants.DEFAULT_14)
+        .fontSize(CommonConstants.FONT_SIZE_NORMAL_X)
         // .placeholderFont({ size: CommonConstants.DEFAULT_14 })
         .padding({left: 10, right: 10})
         .defaultFocus(false)
         .focusOnTouch(true)
         .borderRadius(20)
-        .borderColor(Color.White)
+        // .borderColor(Color.White)
         .backgroundColor(Color.White)
         .layoutWeight(1)
-        .height(36)
+        .height(CommonConstants.DEFAULT_36)
         .margin({ right: 12 })
         .onClick(() => router.pushUrl({ url: 'pages/SearchPage' }))
       Image(Resources.icon_home_search)
@@ -126,28 +126,6 @@ export default struct NavigationTabContent {
       PageStateLayout({pageState: this.pageState, onRetry : this.getNavigationList.bind(this)}) {
         this.NavigationContent()
       }
-      // if (this.pageState == PageState.Success) {
-      //   this.NavigationContent()
-      // } else if (this.pageState == PageState.Empty) {
-      //   this.NavigationContent()
-      // } else if (this.pageState == PageState.Failed) {
-      //     Column() {
-      //       Text("加载失败，请检查网络后点击重试。。。")
-      //         .onClick(this.getNavigationList.bind(this))
-      //     }
-      //     .justifyContent(FlexAlign.Center)
-      //     .layoutWeight(1)
-      // } else if (this.pageState == PageState.Loading) {
-      //   Column() {
-      //     Progress({
-      //       type: ProgressType.Ring,
-      //       value: 0
-      //     }).width(30).height(30)
-      //     Text("加载中。。。").onClick(this.getNavigationList.bind(this))
-      //   }
-      //   .justifyContent(FlexAlign.Center)
-      //   .layoutWeight(1)
-      // }
     }
     .justifyContent(FlexAlign.Start)
   }

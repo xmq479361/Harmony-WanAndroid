@@ -2,11 +2,13 @@ import BannerVO from '../model/BannerVO'
 
 import AxiosHttpRequest, { ApiResponse } from '../support/http/AxiosHttp'
 import axiosClient from '../support/http/AxiosRequest'
-import ArticleList from '../model/ArticleList'
+import PageList from '../model/ArticleList'
 import { TreeData } from '../model/TreeData'
 import UserModel from '../model/UserModel'
 import { NavigationItem } from '../model/NavigationVO'
 import HotKey from '../model/SearchVO'
+import { ProjectPageItem, ProjectTabItem } from '../model/ProjectVO'
+import ArticleVO from '../model/ArticleVO'
 
 class WanAndroidService {
   // axiosRequest: AxiosHttpRequest = new AxiosHttpRequest({
@@ -57,18 +59,16 @@ class WanAndroidService {
   /**
    * @returns
    */
-  getArticleList(count: number, cid?: number): Promise<ApiResponse<ArticleList>> {
-    let params = {}
+  getArticleList(count: number, pageSize: number, cid?: number): Promise<ApiResponse<PageList<ArticleVO>>> {
+    let params = { page_size: pageSize }
     if (cid) {
       params['cid'] = cid
     }
     console.log("getArticleList", cid, count)
-    return axiosClient.get<ApiResponse<TreeData>>(
+    return axiosClient.get<ApiResponse<PageList<ArticleVO>>>(
       {
         url: `/article/list/${count}/json`,
         params: params
-        // checkResultCode: true,
-        // showLoading: true
       }
     );
   }
@@ -79,9 +79,7 @@ class WanAndroidService {
   getTreeList(): Promise<ApiResponse<TreeData>> {
     return axiosClient.get<ApiResponse<TreeData>>(
       {
-        url: `/tree/json`,
-        // checkResultCode: true,
-        // showLoading: true
+        url: `/tree/json`
       }
     );
   }
@@ -111,8 +109,8 @@ class WanAndroidService {
   /**
    * @returns
    */
-  search(pageNo: number, searchKey: string): Promise<ApiResponse<ArticleList>> {
-    return axiosClient.post<ApiResponse<ArticleList>>(
+  search(pageNo: number, searchKey: string): Promise<ApiResponse<PageList<ArticleVO>>> {
+    return axiosClient.post<ApiResponse<PageList<ArticleVO>>>(
       {
         url: `/article/query/${pageNo}/json`,
         params: {
@@ -135,6 +133,32 @@ class WanAndroidService {
         }
         // checkResultCode: true,
         // showLoading: true
+      }
+    );
+  }
+
+  /**
+   * @returns
+   */
+  getProjectTree(): Promise<ApiResponse<ProjectTabItem>> {
+    return axiosClient.get<ApiResponse<ProjectTabItem>>(
+      {
+        url: `/project/tree/json`
+      }
+    );
+  }
+
+  /**
+   * @returns
+   */
+  getProjectItemList(count: number, pageSize: number, cid: number): Promise<ApiResponse<ProjectPageItem>> {
+    return axiosClient.get<ApiResponse<ProjectPageItem>>(
+      {
+        url: `/project/list/${count}/json`,
+        params: {
+          cid: cid,
+          page_size: pageSize
+        }
       }
     );
   }

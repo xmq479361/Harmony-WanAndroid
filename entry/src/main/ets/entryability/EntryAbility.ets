@@ -10,6 +10,7 @@ export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
     AppServiceManager.initialized(this.context)
+    console.log("Entry onCreate")
   }
 
   onDestroy(): void {
@@ -17,10 +18,11 @@ export default class EntryAbility extends UIAbility {
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
+    console.log("Entry onWindowStageCreate")
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
-    windowStage.loadContent('pages/HomePage', (err, data) => {
+    windowStage.loadContent('pages/SplashPage', (err, data) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;
@@ -29,12 +31,14 @@ export default class EntryAbility extends UIAbility {
     });
   }
 
+
   onWindowStageDestroy(): void {
     // Main window is destroyed, release UI related resources
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
   }
 
   onForeground(): void {
+    console.log("Entry onForeground")
     // Ability has brought to foreground
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onForeground');
   }

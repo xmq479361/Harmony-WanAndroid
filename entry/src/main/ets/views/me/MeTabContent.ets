@@ -46,7 +46,7 @@ export default struct MeTabContent {
             .width('100%')
             .objectFit(ImageFit.Fill)
           Text(this.nickName?.length > 0 ? this.nickName : "登录")
-            .fontSize(16)
+            .fontSize(CommonConstants.FONT_SIZE_NORMAL_X)
             .position({
               x: 30, y: 105
             })
@@ -62,7 +62,7 @@ export default struct MeTabContent {
         }
 
         Row() {
-          Text('我的收藏')
+          Text('我的收藏').fontSize(CommonConstants.FONT_SIZE_NORMAL_X)
         }
         .height(60)
         .backgroundColor(Color.White)
@@ -72,7 +72,7 @@ export default struct MeTabContent {
 
         Divider().height(1)
         Row() {
-          Text('关于我们')
+          Text('关于我们').fontSize(CommonConstants.FONT_SIZE_NORMAL_X)
         }
         .height(60)
         .backgroundColor(Color.White)

@@ -1,3 +1,5 @@
+// export interface PageStateInterface {
+// }
 
 
 export  enum PageState {
@@ -7,51 +9,14 @@ export  enum PageState {
   Failed,
   Empty,
 }
+// class PageStateHolder {
+//   readonly Initial: PageState = {}
+//   readonly Loading: PageState = {}
+//   readonly Success: PageState = {}
+//   readonly Failed: PageState = {}
+//   readonly Empty: PageState = {}
+// }
+//
+// const PageState = new PageStateHolder()
 
-
-
-export interface ListState {
-  canLoadMore(): boolean
-  toString(): string
-}
-
-
-export const NoMore: ListState = {
-  canLoadMore() {
-    return false
-  },
-  toString() {
-    return 'NoMore'
-  }
-}
-export const HasMore: ListState = {
-  canLoadMore() {
-    return true
-  },
-  toString() {
-    return 'HasMore'
-  }
-}
-export const NoData: ListState = {
-  canLoadMore() {
-    return false
-  },
-  toString() {
-    return 'NoData'
-  }
-}
-export const Loading: ListState = {
-  canLoadMore() {
-    return false
-  },
-  toString() {
-    return 'Loading'
-  }
-}
-
-
-export  module ListState {
-  export type ListState = {
-    NoData
-  }
-}
+export default PageState

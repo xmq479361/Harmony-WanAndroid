@@ -7,10 +7,11 @@ import {
   PullToRefreshController,
   PullToRefreshViewModel
 } from '../component/ptr/PullToRefreshComponent'
-import * as ListState from '../component/ptr/ListState'
+import ListState from '../component/ptr/ListState'
 import TreeTabContent from '../views/tree/TreeTabContent'
 import CommonConstants from '../global/CommonConstants'
 import { Resources } from '../global/Resources'
+import ProjectTabContent from '../views/project/ProjectTabContent'
 
 @Extend(Text)
 function forTabText(isSelected: boolean) {
@@ -112,15 +113,17 @@ export struct PullToRefreshTabContent {
 @Component
 struct HomePage {
   private controller: TabsController = new TabsController()
-  @Provide currentIndex: number = 2
+  @State currentIndex: number = 0
   @State active: number[] = [this.currentIndex]
 
   aboutToAppear() {
     console.log("Home aboutToAppear")
   }
+
   onPageShow() {
     console.log("Home onPageShow")
   }
+
   @Builder
   TabBuilder(index: number, title: string, icon: Resource) {
     Column() {
@@ -149,28 +152,26 @@ struct HomePage {
 
   build() {
     Tabs({ barPosition: BarPosition.End, controller: this.controller, index: this.currentIndex }) {
-
       ForEach([
         { title: "首页", icon: Resources.icon_home_pager_not_selected },
+        { title: "项目", icon: Resources.icon_project_not_selected },
         { title: "导航", icon: Resources.icon_navigation_not_selected },
         { title: "体系", icon: Resources.icon_knowledge_hierarchy_not_selected },
-        { title: "Demo", icon: $r('app.media.ic_eye_normal') },
-        { title: "我的", icon: $r('app.media.ic_account_normal') }], (item, index) => {
+        { title: "我的", icon: $r('app.media.mine') }], (item, index) => {
         TabContent() {
           if (this.active.includes(index)) {
             if (index == 0) {
               HomeTabContent()
             } else if (index == 1) {
-              NavigationTabContent()
+              ProjectTabContent()
             } else if (index == 2) {
-              TreeTabContent()
+              NavigationTabContent()
             } else if (index == 3) {
-              PullToRefreshTabContent()
+              TreeTabContent()
             } else if (index == 4) {
               MeTabContent()
             }
           }
-          // this.TabBuilderContent(item.color, index)
         }.tabBar(this.TabBuilder(index, item.title, item.icon))
       })
     }
@@ -188,3 +189,4 @@ struct HomePage {
     .backgroundColor(CommonConstants.THEME_COLOR_BACKGROUND)
   }
 }
+

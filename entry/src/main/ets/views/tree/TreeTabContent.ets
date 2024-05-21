@@ -4,7 +4,7 @@ import { TreeData, TreeDataItem } from '../../model/TreeData'
 import CommonConstants from '../../global/CommonConstants'
 import router from '@ohos.router'
 import { CommonDataSource } from '../../support/DataSource'
-import { PageState } from '../../model/vo/PageState'
+import PageState from '../../model/vo/PageState'
 import PageStateLayout from '../../component/state/PageStateLayout'
 
 
@@ -44,7 +44,7 @@ export default struct TreeTabContent {
             Column() {
               Text(treeData.name)
                 .fontWeight(FontWeight.Bold)
-                .fontSize(16)
+                .fontSize(CommonConstants.FONT_SIZE_NORMAL_X)
                 .maxLines(1)
               Divider()
                 .vertical(false)
@@ -56,19 +56,20 @@ export default struct TreeTabContent {
                 ForEach(treeData.children, (item: TreeDataItem, _: number) => {
                   Button() {
                     Text(item.name)
-                      .fontColor(Color.Gray)
+                      .fontColor($r('app.color.fontColor_text1'))
+                      .fontSize(CommonConstants.FONT_SIZE_NORMAL)
                   }
                   .margin(4)
                   .padding({ left: 10, right: 10 })
-                  .borderRadius(16)
-                  .height(32)
+                  .borderRadius(CommonConstants.DEFAULT_16)
+                  .height(CommonConstants.DEFAULT_32)
                   .borderColor('#eee')
                   .backgroundColor('#eee')
                   .onClick(() => this.openArticle(item))
                 }, (item: TreeDataItem, _: number) => `${item.id}`)
               }
             }.backgroundColor(Color.White)
-            .padding(10)
+            .padding(CommonConstants.DEFAULT_10)
             .alignItems(HorizontalAlign.Start)
           }
         }, (item: TreeData) => `${item.id}`)
@@ -76,7 +77,7 @@ export default struct TreeTabContent {
       .cachedCount(5)
     }
     .layoutWeight(1)
-    .margin({ top: 10 })
+    .margin({ top: CommonConstants.DEFAULT_10 })
   }
 
   openArticle(treeDataItem: TreeDataItem) {
